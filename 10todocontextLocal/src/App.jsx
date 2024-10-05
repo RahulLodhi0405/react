@@ -27,36 +27,45 @@ function App() {
     );
   };
 
-  useEffect(() => {const todos=JSON.parse
-    (localStorage.getItem("todos"))
-    
-if (todos && todos.length >0){
-  setTodos(todos)
+  // Fix localStorage effect
+  useEffect(() => {
+    const todosFromStorage = JSON.parse(localStorage.getItem('todos'));
+    if (todosFromStorage && todosFromStorage.length > 0) {
+      setTodos(todosFromStorage);
+    }
+  }, []);
 
-}
-
-  }, [])
-
-  useEffect(()=>{
-    localStorage.setItem("todos", JSON.stringify(todos) ) 
-} ,[todos])
-
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <TodoProvider value={{ todos, addTodo, updateTodo, deleteTodo, toggleComplete }}>
-      <div className="bg-[#172842] min-h-screen py-8">
-        <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-          <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
+      {/* Apply background styles inline */}
+      <div
+        style={{
+          backgroundImage:
+            'url(https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg)',
+          backgroundSize: 'cover', // Cover entire area
+          backgroundPosition: 'center', // Center the image
+          backgroundRepeat: 'no-repeat', // Don't repeat
+          height: '100vh', // Full height of the viewport
+          width: '100vw', // Full width of the viewport
+        }}
+      >
+        <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 bg-white bg-opacity-20 text-white">
+          <h1 className="text-2xl font-bold text-center mb-8 mt-2">TODO APP</h1>
           <div className="mb-4">
             {/* Todo form goes here */}
             <TodoForm />
           </div>
           <div className="flex flex-wrap gap-y-3">
             {/* Loop and Add TodoItem here */}
-            {todos.map((todo)=>(<div key={todo.id}
-            className='w-full'>
-              <TodoItem todo={todo}/>
-            </div>))}
+            {todos.map((todo) => (
+              <div key={todo.id} className="w-full">
+                <TodoItem todo={todo} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
